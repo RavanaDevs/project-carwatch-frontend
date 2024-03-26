@@ -71,3 +71,25 @@
   justify-content: space-between;
   margin-bottom: 4px;
 }
+
+@media only screen and (max-width: 768px) {
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .detail-2 {
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+  }
+
+  .right {
+    padding: 0;
+    text-align: left;
+  }
+
+  .m-bar {
+    display: none;
+  }
+}
