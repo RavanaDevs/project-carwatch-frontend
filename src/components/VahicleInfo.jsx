@@ -7,11 +7,11 @@ const VehileInfo = () => {
     <div className='vehicle-info-container'>
       <div className='dials'>
         <div className='dial speed'>
-          <Speedometer speed={60} />
+          <Speedometer speed={120} />
           <span>Speed</span>
         </div>
         <div className='dial rpm'>
-          <RPMmeter speed={2520} />
+          <RPMmeter rpm={2520} />
           <span>RPM</span>
         </div>
       </div>

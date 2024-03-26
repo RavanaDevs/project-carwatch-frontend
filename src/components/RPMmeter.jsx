@@ -1,47 +1,78 @@
-import { useState, useEffect } from 'react'
-import './css/speedometer.css' // Import CSS file for styling
+import './css/speedometer.css'
+import { Doughnut } from 'react-chartjs-2'
+import { ArcElement, Chart } from 'chart.js'
+import { useEffect, useState } from 'react'
 
-const RPMmeter = ({ speed }) => {
-  const [rotation, setRotation] = useState(0)
+Chart.register(ArcElement)
 
-  // Update rotation angle based on speed
+const RPMmeter = ({ rpm }) => {
+  const options = {
+    maintainAspectRatio: false,
+    legend: {
+      display: true,
+      position: 'right',
+      labels: {
+        fontColor: 'black',
+      },
+    },
+
+    tooltips: {
+      enabled: true,
+    },
+
+    cutout: '95%',
+    rotation: 225,
+    circumference: 270,
+  }
+
+  const [chartData, setChartData] = useState(null)
+  const [chartPlugins, setChartPlugins] = useState(null)
+
   useEffect(() => {
-    const maxSpeed = 8000 // Maximum speed for full rotation (adjust as needed)
-    const maxRotation = 180 // Maximum rotation angle for full rotation (adjust as needed)
-    const newRotation = (speed / maxSpeed) * maxRotation // Calculate new rotation
-    setRotation(newRotation)
-  }, [speed])
+    const max = 8000
 
-  return (
-    <div className='speedometer-container'>
-      <svg
-        className='speedometer'
-        width='200'
-        height='200'
-        viewBox='0 0 200 200'
-        xmlns='http://www.w3.org/2000/svg'
-      >
-        <circle
-          cx='100'
-          cy='100'
-          r='90'
-          fill='none'
-          stroke='#ccc'
-          strokeWidth='10'
-        />
-        <path
-          className='speedometer-pointer'
-          transform={`rotate(${rotation} 100 100)`}
-          d='M100,20 L98,100 L102,100 Z'
-          fill='#ccc'
-          stroke='#ccc'
-        />
-        <text x='100' y='150' textAnchor='middle' fontSize='20' fill='#000'>
-          {speed} rpm
-        </text>
-      </svg>
-    </div>
-  )
+    setChartData({
+      labels: ['Red', 'Yellow'],
+      datasets: [
+        {
+          data: [rpm, max - rpm],
+          backgroundColor: ['#2975f0', '#ccc'],
+          hoverBackgroundColor: ['#FF6384', '#FFCE56'],
+        },
+      ],
+    })
+
+    setChartPlugins([
+      {
+        beforeDraw: function (chart) {
+          var width = chart.width,
+            height = chart.height,
+            ctx = chart.ctx
+          ctx.restore()
+          var fontSize = (height / 160).toFixed(2)
+          ctx.font = fontSize + 'em sans-serif'
+          ctx.textBaseline = 'top'
+          var text = rpm + ' rpm',
+            textX = Math.round((width - ctx.measureText(text).width) / 2),
+            textY = height / 2
+          ctx.fillText(text, textX, textY)
+          ctx.save()
+        },
+      },
+    ])
+  }, [rpm])
+
+  const showChart = () => {
+    if (chartData) {
+      return (
+        <Doughnut data={chartData} options={options} plugins={chartPlugins} />
+      )
+    } else {
+      return 'loading'
+    }
+  }
+
+  return <div className='speedometer-container'>{showChart()}</div>
 }
 
 export default RPMmeter

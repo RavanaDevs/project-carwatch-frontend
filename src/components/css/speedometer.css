@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px; /* Adjust as needed */
+  width: 200px;
+  height: 200px;
 }
 
 .speedometer {
