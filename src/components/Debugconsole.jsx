@@ -15,12 +15,10 @@ const DebugConsole = () => {
 
   useEffect(() => {
     socket.on('debug-msg', (msg) => {
+      console.log(msg)
       if (msg) {
         Object.entries(msg).forEach(([key, value]) => {
-          const new_replies = [
-            <DebugReply msg={value.trim()} cmd={key} />,
-            ...replies,
-          ]
+          const new_replies = [<DebugReply msg={value} cmd={key} />, ...replies]
           setReplies(new_replies)
         })
       }
