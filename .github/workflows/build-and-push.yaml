@@ -1,0 +1,40 @@
+name: Build and Push to Docker Hub
+
+on:
+  push:
+    branches:
+      - dev # Change this to your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t kavindusanjula/carwatch-frontend .
+
+      - name: Push Docker image
+        run: docker push kavindusanjula/carwatch-frontend
+
+  update_server:
+    name: Telling Server to Update
+    needs: 'build'
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: bash /update-scripts/update-frontend.sh
