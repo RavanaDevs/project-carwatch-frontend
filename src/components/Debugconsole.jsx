@@ -1,29 +1,33 @@
 import { Form } from 'react-bootstrap'
 import './css/components.css'
-import DebugReply from './Debugrepy'
-import { useRef, useState, useEffect } from 'react'
-import { io } from 'socket.io-client'
+// import DebugReply from './Debugrepy'
+import { useEffect, useRef, useState } from 'react'
+import { socket } from './socket-connection'
+
 import axios from 'axios'
 
-const socket = io.connect('http://localhost:5000/', {
-  path: '/socket.io',
-})
+
 
 const DebugConsole = () => {
   const [replies, setReplies] = useState([])
   const inputRef = useRef()
 
   useEffect(() => {
-    socket.on('debug-msg', (msg) => {
+
+    socket.on("debug",msg=>{
       console.log(msg)
-      if (msg) {
-        Object.entries(msg).forEach(([key, value]) => {
-          const new_replies = [<DebugReply msg={value} cmd={key} />, ...replies]
-          setReplies(new_replies)
-        })
-      }
     })
-  }, [socket, replies])
+
+    // socket.on('debug-msg', (msg) => {
+    //   console.log(msg)
+    //   if (msg) {
+    //     Object.entries(msg).forEach(([key, value]) => {
+    //       const new_replies = [<DebugReply msg={value} cmd={key} />, ...replies]
+    //       setReplies(new_replies)
+    //     })
+    //   }
+    // })
+  }, [])
 
   const sendMessage = async (msg) => {
     await axios.get('/api/debug', {
