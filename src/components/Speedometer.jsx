@@ -65,7 +65,10 @@ const Speedometer = ({ speed }) => {
   const showChart = () => {
     if (chartData) {
       return (
-        <Doughnut data={chartData} options={options} plugins={chartPlugins} />
+        <>
+        <div className='char-center'>120 km/h</div>
+        <Doughnut data={chartData} options={options}  />
+        </>
       )
     } else {
       return 'loading'
