@@ -1,11 +1,25 @@
 import './css/speedometer.css'
 import { Doughnut } from 'react-chartjs-2'
-import { ArcElement, Chart } from 'chart.js'
+import { ArcElement, Chart, plugins } from 'chart.js'
 import { useEffect, useState } from 'react'
+import { socket } from './socket-connection'
 
 Chart.register(ArcElement)
 
-const RPMmeter = ({ rpm }) => {
+const RPMmeter = () => {
+  const max = 8000
+
+  const initialData = {
+    labels: ['Red', 'Yellow'],
+    datasets: [
+      {
+        data: [0, max - 0],
+        backgroundColor: ['#2975f0', '#ccc'],
+        hoverBackgroundColor: ['#FF6384', '#FFCE56'],
+      },
+    ],
+  }
+
   const options = {
     maintainAspectRatio: false,
     legend: {
@@ -25,51 +39,56 @@ const RPMmeter = ({ rpm }) => {
     circumference: 270,
   }
 
-  const [chartData, setChartData] = useState(null)
-  const [chartPlugins, setChartPlugins] = useState(null)
+  const initialPlugins = [
+    {
+      beforeDraw: function (chart) {
+        var width = chart.width,
+          height = chart.height,
+          ctx = chart.ctx
+        ctx.restore()
+        var fontSize = (height / 160).toFixed(2)
+        ctx.font = fontSize + 'em sans-serif'
+        ctx.textBaseline = 'top'
+        var text = 0 + ' rpm',
+          textX = Math.round((width - ctx.measureText(text).width) / 2),
+          textY = height / 2
+        ctx.fillText(text, textX, textY)
+        ctx.save()
+      },
+    },
+  ]
 
-  useEffect(() => {
-    const max = 8000
+  const [charData, setChartData] = useState(initialData)
+  const [rpm, setRpm] = useState(0)
 
+  const updateChart = (newRpm) => {
     setChartData({
       labels: ['Red', 'Yellow'],
       datasets: [
         {
-          data: [rpm, max - rpm],
+          data: [newRpm, max - newRpm],
           backgroundColor: ['#2975f0', '#ccc'],
           hoverBackgroundColor: ['#FF6384', '#FFCE56'],
         },
       ],
     })
+  }
 
-    setChartPlugins([
-      {
-        beforeDraw: function (chart) {
-          var width = chart.width,
-            height = chart.height,
-            ctx = chart.ctx
-          ctx.restore()
-          var fontSize = (height / 160).toFixed(2)
-          ctx.font = fontSize + 'em sans-serif'
-          ctx.textBaseline = 'top'
-          var text = rpm + ' rpm',
-            textX = Math.round((width - ctx.measureText(text).width) / 2),
-            textY = height / 2
-          ctx.fillText(text, textX, textY)
-          ctx.save()
-        },
-      },
-    ])
-  }, [rpm])
+  useEffect(() => {
+    socket.on('rpm', (msg) => {
+      const rpmValue = parseInt(msg)
+      updateChart(rpmValue)
+      setRpm(rpmValue)
+    })
+  })
 
   const showChart = () => {
-    if (chartData) {
-      return (
-        <Doughnut data={chartData} options={options} plugins={chartPlugins} />
-      )
-    } else {
-      return 'loading'
-    }
+    return (
+      <>
+        <div className='char-center'>{rpm} rpm</div>
+        <Doughnut data={charData} options={options} />
+      </>
+    )
   }
 
   return <div className='speedometer-container'>{showChart()}</div>
