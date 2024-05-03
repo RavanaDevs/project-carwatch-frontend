@@ -3,6 +3,8 @@ import Speedometer from './Speedometer'
 import './css/vehicleinfo.css'
 
 const VehileInfo = () => {
+
+
   return (
     <div className='vehicle-info-container'>
       <div className='dials'>
@@ -11,7 +13,7 @@ const VehileInfo = () => {
           <span>Speed</span>
         </div>
         <div className='dial rpm'>
-          <RPMmeter rpm={2520} />
+        <RPMmeter/>
           <span>RPM</span>
         </div>
       </div>
