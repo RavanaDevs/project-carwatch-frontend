@@ -3,8 +3,34 @@ import './css/profile.css'
 
 import logo from '../assets/logo.png'
 import { Button } from 'react-bootstrap'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import '../axiosConfig'
+import { Link } from 'react-router-dom'
 
 const Profile = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    group: '',
+    nickname: '',
+    engine: '',
+    ODO: '',
+    chasses: '',
+    runtime: '',
+    model: '',
+    maxSpeed: '',
+  })
+
+  useEffect(() => {
+    const getData = async () => {
+      const profile = await axios.get('/api/profile', {
+        params: { id: '663efc15aa4dbc71275ba4ea' },
+      })
+
+      setFormData(profile.data)
+    }
+    getData()
+  }, [])
   return (
     <div className='profile-container bg-light p-2'>
       <div className='detail-1'>
@@ -12,15 +38,15 @@ const Profile = () => {
           <img src={logo} alt='logo' width={70} height={70} />
         </div>
         <div className='info-section'>
-          <h5>Kavindu Sanjula</h5>
+          <h5>{formData.username}</h5>
           <span>
             <span className='lable'>Group: </span>
-            <b>Eng</b>
+            <b>{formData.group}</b>
           </span>
           <span>
-            <span className='lable'>User:</span> <b>sanju</b>
+            <span className='lable'>User:</span> <b>{formData.nickname}</b>
           </span>
-          <Button variant='primary' className='btn-sm'>
+          <Button as={Link} to={'/profile'} variant='primary' className='btn-sm'>
             View
           </Button>
         </div>
@@ -30,29 +56,29 @@ const Profile = () => {
         <div className='left'>
           <span>
             <span className='lable'>Engine: </span>
-            <b>82565895658</b>
+            <b>{formData.engine}</b>
           </span>
           <span>
             <span className='lable'>Chasses: </span>
-            <b>m5df8e36df</b>
+            <b>{formData.chasses}</b>
           </span>
           <span>
             <span className='lable'>Model: </span>
-            <b>Toyota RD</b>
+            <b>{formData.model}</b>
           </span>
         </div>
         <div className='right'>
           <span>
             <span className='lable'>ODO: </span>
-            <b>15320km</b>
+            <b>{formData.ODO}km</b>
           </span>
           <span>
             <span className='lable'>Runtime: </span>
-            <b>560h</b>
+            <b>{formData.runtime}h</b>
           </span>
           <span>
             <span className='lable'>Max Speed: </span>
-            <b>122km/h</b>
+            <b>{formData.maxSpeed}km/h</b>
           </span>
         </div>
       </div>

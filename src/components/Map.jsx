@@ -24,7 +24,7 @@ const Map = () => {
           </Marker>
         </MapContainer>
       </div>
-      <div className='info-section'>
+      {/* <div className='info-section'>
         <div className='map-detail'>
           <div className='left'>
             <span>
@@ -55,7 +55,7 @@ const Map = () => {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
