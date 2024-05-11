@@ -1,6 +1,9 @@
 import { io } from 'socket.io-client'
 
-export const socket = io.connect('http://172.105.34.106:5000/', {
+// export const socket = io.connect('http://172.105.34.106:5000/', {
+//   path: '/socket.io',
+// })
+export const socket = io.connect('http://localhost:5000/', {
   path: '/socket.io',
 })
 

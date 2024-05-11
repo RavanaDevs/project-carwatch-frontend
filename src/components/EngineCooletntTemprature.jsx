@@ -6,8 +6,8 @@ import { socket } from './socket-connection'
 
 Chart.register(ArcElement)
 
-const Speedometer = () => {
-  const max = 180
+const ECTMeter = () => {
+  const max = 300
 
   const initialData = {
     labels: ['Red', 'Yellow'],
@@ -39,34 +39,15 @@ const Speedometer = () => {
     circumference: 270,
   }
 
-  const initialPlugins = [
-    {
-      beforeDraw: function (chart) {
-        var width = chart.width,
-          height = chart.height,
-          ctx = chart.ctx
-        ctx.restore()
-        var fontSize = (height / 160).toFixed(2)
-        ctx.font = fontSize + 'em sans-serif'
-        ctx.textBaseline = 'top'
-        var text = 0 + ' km/h',
-          textX = Math.round((width - ctx.measureText(text).width) / 2),
-          textY = height / 2
-        ctx.fillText(text, textX, textY)
-        ctx.save()
-      },
-    },
-  ]
-
   const [charData, setChartData] = useState(initialData)
-  const [spd, setSpd] = useState(0)
+  const [temp, setTemp] = useState(0)
 
-  const updateChart = (newSpd) => {
+  const updateChart = (newTemp) => {
     setChartData({
       labels: ['Red', 'Yellow'],
       datasets: [
         {
-          data: [newSpd, max - newSpd],
+          data: [newTemp, max - newTemp],
           backgroundColor: ['#2975f0', '#ccc'],
           hoverBackgroundColor: ['#FF6384', '#FFCE56'],
         },
@@ -75,18 +56,20 @@ const Speedometer = () => {
   }
 
   useEffect(() => {
-    socket.on('spd', (msg) => {
-      const spdValue = parseInt(msg)
-      console.log("speed:",msg);
-      updateChart(spdValue)
-      setSpd(spdValue)
+    socket.on('ect', (msg) => {
+      const throttleValue = parseInt(msg)
+      console.log("coolent temprature:",msg)
+      updateChart(throttleValue)
+      setTemp(throttleValue)
     })
   })
 
   const showChart = () => {
     return (
       <>
-        <div className='char-center'>{spd} km/h</div>
+        <div className='char-center'>
+          {temp} {"'C"}
+        </div>
         <Doughnut data={charData} options={options} />
       </>
     )
@@ -95,4 +78,4 @@ const Speedometer = () => {
   return <div className='speedometer-container'>{showChart()}</div>
 }
 
-export default Speedometer
+export default ECTMeter

@@ -6,8 +6,8 @@ import { socket } from './socket-connection'
 
 Chart.register(ArcElement)
 
-const Speedometer = () => {
-  const max = 180
+const ThrottlePositionMeter = () => {
+  const max = 100
 
   const initialData = {
     labels: ['Red', 'Yellow'],
@@ -39,34 +39,16 @@ const Speedometer = () => {
     circumference: 270,
   }
 
-  const initialPlugins = [
-    {
-      beforeDraw: function (chart) {
-        var width = chart.width,
-          height = chart.height,
-          ctx = chart.ctx
-        ctx.restore()
-        var fontSize = (height / 160).toFixed(2)
-        ctx.font = fontSize + 'em sans-serif'
-        ctx.textBaseline = 'top'
-        var text = 0 + ' km/h',
-          textX = Math.round((width - ctx.measureText(text).width) / 2),
-          textY = height / 2
-        ctx.fillText(text, textX, textY)
-        ctx.save()
-      },
-    },
-  ]
 
   const [charData, setChartData] = useState(initialData)
-  const [spd, setSpd] = useState(0)
+  const [position, setPosition] = useState(0)
 
-  const updateChart = (newSpd) => {
+  const updateChart = (newPosition) => {
     setChartData({
       labels: ['Red', 'Yellow'],
       datasets: [
         {
-          data: [newSpd, max - newSpd],
+          data: [newPosition, max - newPosition],
           backgroundColor: ['#2975f0', '#ccc'],
           hoverBackgroundColor: ['#FF6384', '#FFCE56'],
         },
@@ -75,18 +57,18 @@ const Speedometer = () => {
   }
 
   useEffect(() => {
-    socket.on('spd', (msg) => {
-      const spdValue = parseInt(msg)
-      console.log("speed:",msg);
-      updateChart(spdValue)
-      setSpd(spdValue)
+    socket.on('tp', (msg) => {
+      const throttleValue = parseFloat(msg)
+      console.log("throttle position:",msg);
+      updateChart(throttleValue)
+      setPosition(throttleValue)
     })
   })
 
   const showChart = () => {
     return (
       <>
-        <div className='char-center'>{spd} km/h</div>
+        <div className='char-center'>{position.toFixed(2)} %</div>
         <Doughnut data={charData} options={options} />
       </>
     )
@@ -95,4 +77,4 @@ const Speedometer = () => {
   return <div className='speedometer-container'>{showChart()}</div>
 }
 
-export default Speedometer
+export default ThrottlePositionMeter
