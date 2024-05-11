@@ -77,7 +77,7 @@ const RPMmeter = () => {
   useEffect(() => {
     socket.on('rpm', (msg) => {
       const rpmValue = parseInt(msg)
-      console.log(msg);
+      // console.log(msg);
       updateChart(rpmValue)
       setRpm(rpmValue)
     })

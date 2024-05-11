@@ -1,10 +1,25 @@
-import { useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useEffect, useState } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import './css/map.css'
 import 'leaflet/dist/leaflet.css'
+import { socket } from './socket-connection'
+import { LeafletProvider } from '@react-leaflet/core'
 
 const Map = () => {
   const [center, setCenter] = useState([8.06012, 80.273583])
+
+  // const map = useMap()
+
+  useEffect(() => {
+    socket.on('gps', (msg) => {
+      const lon = parseFloat(msg[0])
+      const lat = parseFloat(msg[0])
+      const coords = [lat, lon]
+      setCenter(coords)
+      // map.setView(coords)
+    })
+  })
+
   return (
     <div className='map-container d-flex flex-column align-items-center'>
       <div className='map-section d-flex justify-content-center align-items-center'>
@@ -19,9 +34,10 @@ const Map = () => {
           }}
         >
           <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
-          <Marker position={center}>
+          <MyMarker pos={center}/>
+          {/* <Marker position={center} >
             <Popup>Your train is hear</Popup>
-          </Marker>
+          </Marker> */}
         </MapContainer>
       </div>
       {/* <div className='info-section'>
@@ -61,3 +77,20 @@ const Map = () => {
 }
 
 export default Map
+
+function MyMarker({pos}) {
+  const map = useMap();
+
+  useEffect(()=>{
+    map.setView(pos)
+  },[pos])
+
+  return (
+    <div>
+      <Marker
+        // icon={props.icon}
+        position={pos}
+      ></Marker>
+    </div>
+  );
+}

@@ -58,7 +58,7 @@ const ECTMeter = () => {
   useEffect(() => {
     socket.on('ect', (msg) => {
       const throttleValue = parseInt(msg)
-      console.log("coolent temprature:",msg)
+      // console.log("coolent temprature:",msg)
       updateChart(throttleValue)
       setTemp(throttleValue)
     })

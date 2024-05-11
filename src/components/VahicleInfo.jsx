@@ -13,11 +13,11 @@ const VehileInfo = () => {
 
   useEffect(() => {
     socket.on('fuelStatus', (msg) => {
-      console.log("fuel status:",msg);
+      // console.log("fuel status:",msg);
       setFuelStatus(msg)
     })
     socket.on('engineLoad', (msg) => {
-      console.log("engine load:",msg);
+      // console.log("engine load:",msg);
       setEngineLoad(msg)
     })
   })

@@ -59,7 +59,7 @@ const ThrottlePositionMeter = () => {
   useEffect(() => {
     socket.on('tp', (msg) => {
       const throttleValue = parseFloat(msg)
-      console.log("throttle position:",msg);
+      // console.log("throttle position:",msg);
       updateChart(throttleValue)
       setPosition(throttleValue)
     })

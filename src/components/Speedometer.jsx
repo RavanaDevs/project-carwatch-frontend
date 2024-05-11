@@ -77,7 +77,7 @@ const Speedometer = () => {
   useEffect(() => {
     socket.on('spd', (msg) => {
       const spdValue = parseInt(msg)
-      console.log("speed:",msg);
+      // console.log("speed:",msg);
       updateChart(spdValue)
       setSpd(spdValue)
     })
