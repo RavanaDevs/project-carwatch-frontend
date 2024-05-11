@@ -4,7 +4,9 @@ import SideBar from '../components/Sidebar'
 import '../App.css'
 import '../components/css/components.css'
 import './css/profile-edit.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import '../axiosConfig'
 
 const ProfileEdit = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +21,17 @@ const ProfileEdit = () => {
     maxSpeed: '',
   })
 
+  useEffect(() => {
+    const getData = async () => {
+      const profile = await axios.get('/api/profile', {
+        params: { id: '663efc15aa4dbc71275ba4ea' },
+      })
+
+      setFormData(profile.data)
+    }
+    getData()
+  }, [])
+
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
@@ -26,8 +39,13 @@ const ProfileEdit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // You can add your submit logic here
-    console.log(formData)
+    const updateData = async () => {
+      const response = await axios.put('/api/profile', formData, {
+        params: { id: '663efc15aa4dbc71275ba4ea' },
+      })
+      console.log(response)
+    }
+    updateData()
   }
   return (
     <>
@@ -38,7 +56,7 @@ const ProfileEdit = () => {
           <div className='profile-container bg-light p-4'>
             <Form onSubmit={handleSubmit}>
               <Row>
-            <h2>Edit Profile</h2>
+                <h2>Edit Profile</h2>
                 <Col sm={6}>
                   <Form.Group controlId='username'>
                     <Form.Label>Username</Form.Label>
