@@ -3,12 +3,12 @@ import './App.css'
 import Dashboard from './pages/Dashboard'
 import Debug from './pages/Debug'
 import ProfileEdit from './pages/Profile'
-import Hazzard from './components/Hazzard'
+import Hazard from './components/Hazard'
 
 function App() {
   return (
     <>
-    <Hazzard/>
+    <Hazard/>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Dashboard />} />

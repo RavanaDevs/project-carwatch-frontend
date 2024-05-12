@@ -3,7 +3,7 @@ import '../App.css'
 import { socket } from './socket-connection'
 import warning_sign from '../assets/warning_sign.webp'
 
-const Hazzard = () => {
+const Hazard = () => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
@@ -40,4 +40,4 @@ const Hazzard = () => {
   return <>{showHazzard()}</>
 }
 
-export default Hazzard
+export default Hazard
