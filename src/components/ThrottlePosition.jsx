@@ -34,7 +34,7 @@ const ThrottlePositionMeter = () => {
       enabled: true,
     },
 
-    cutout: '95%',
+    cutout: '85%',
     rotation: 225,
     circumference: 270,
   }
