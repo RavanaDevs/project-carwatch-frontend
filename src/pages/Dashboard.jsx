@@ -5,6 +5,7 @@ import Profile from '../components/Profile'
 import '../App.css'
 import VehileInfo from '../components/VahicleInfo'
 import Map from '../components/Map'
+import RpmChart from '../components/RpmChart'
 
 const Dashboard = () => {
   return (
@@ -20,6 +21,7 @@ const Dashboard = () => {
             </div>
             <div className='map col-md-6'>
               <Map />
+              {/* <RpmChart/> */}
             </div>
           </div>
         </div>
