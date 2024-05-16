@@ -71,7 +71,7 @@ const ProfileEdit = () => {
                 </Col>
                 <Col sm={6}>
                   <Form.Group controlId='group'>
-                    <Form.Label>Group</Form.Label>
+                    <Form.Label>Vehicle</Form.Label>
                     <Form.Control
                       type='text'
                       placeholder='Enter group'

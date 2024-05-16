@@ -40,7 +40,7 @@ const Profile = () => {
         <div className='info-section'>
           <h5>{formData.username}</h5>
           <span>
-            <span className='lable'>Group: </span>
+            <span className='lable'>Vehicle: </span>
             <b>{formData.group}</b>
           </span>
           <span>
@@ -73,8 +73,8 @@ const Profile = () => {
             <b>{formData.ODO}km</b>
           </span>
           <span>
-            <span className='lable'>Runtime: </span>
-            <b>{formData.runtime}h</b>
+            <span className='lable'>Transmission: </span>
+            <b>{formData.runtime}</b>
           </span>
           <span>
             <span className='lable'>Max Speed: </span>
