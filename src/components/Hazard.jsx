@@ -29,7 +29,7 @@ const Hazard = () => {
           </div>
           <div className='hazzard-body'>
             <img src={warning_sign} alt='warning' />
-            <h2>Your vehicle in a Hazard!</h2>
+            <h2>Hazard!</h2>
           </div>
         </div>
       )

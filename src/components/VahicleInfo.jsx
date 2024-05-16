@@ -40,7 +40,7 @@ const VehileInfo = () => {
         </div>
         <div className='dial rpm'>
           <ECTMeter />
-          <span>Engine Coolent Temprature</span>
+          <span>Engine Coolant Temprature</span>
         </div>
       </div>
       <div className='info mt-4'>
