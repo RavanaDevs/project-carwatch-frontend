@@ -3,7 +3,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import './css/map.css'
 import 'leaflet/dist/leaflet.css'
 import { socket } from './socket-connection'
-import { LeafletProvider } from '@react-leaflet/core'
+import car from '../assets/car.png'
+import { Icon } from 'leaflet'
+import { CgArrowsScrollV } from 'react-icons/cg'
 
 const Map = () => {
   const [center, setCenter] = useState([8.06012, 80.273583])
@@ -82,6 +84,16 @@ export default Map
 function MyMarker({pos}) {
   const map = useMap();
 
+  var greenIcon = L.icon({
+    iconUrl: 'car.png',
+
+    iconSize:     [80, 80], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [40, 75], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
   useEffect(()=>{
     map.setView(pos)
   },[pos])
@@ -89,7 +101,7 @@ function MyMarker({pos}) {
   return (
     <div>
       <Marker
-        // icon={props.icon}
+        icon={greenIcon}
         position={pos}
       ></Marker>
     </div>
