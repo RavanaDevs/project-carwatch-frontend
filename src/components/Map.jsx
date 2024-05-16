@@ -13,7 +13,7 @@ const Map = () => {
   useEffect(() => {
     socket.on('gps', (msg) => {
       const lon = parseFloat(msg[0])
-      const lat = parseFloat(msg[0])
+      const lat = parseFloat(msg[1])
       const coords = [lon, lat]
       console.log(coords)
       setCenter(coords)
