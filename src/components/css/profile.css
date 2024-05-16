@@ -93,3 +93,7 @@
     display: none;
   }
 }
+
+.profile-image{
+  border-radius: 50%;
+}

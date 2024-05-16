@@ -1,7 +1,7 @@
 import './css/components.css'
 import './css/profile.css'
 
-import logo from '../assets/logo.png'
+import logo from '../assets/profile.jpg'
 import { Button } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -35,7 +35,7 @@ const Profile = () => {
     <div className='profile-container bg-light p-2'>
       <div className='detail-1'>
         <div className='img-section'>
-          <img src={logo} alt='logo' width={70} height={70} />
+          <img className='profile-image' src={logo} alt='logo' width={70} height={70} />
         </div>
         <div className='info-section'>
           <h5>{formData.username}</h5>

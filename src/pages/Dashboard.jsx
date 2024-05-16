@@ -21,7 +21,7 @@ const Dashboard = () => {
             </div>
             <div className='map col-md-6'>
               <Map />
-              {/* <RpmChart/> */}
+              <RpmChart/>
             </div>
           </div>
         </div>
