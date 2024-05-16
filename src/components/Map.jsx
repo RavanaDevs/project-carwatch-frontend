@@ -14,7 +14,8 @@ const Map = () => {
     socket.on('gps', (msg) => {
       const lon = parseFloat(msg[0])
       const lat = parseFloat(msg[0])
-      const coords = [lat, lon]
+      const coords = [lon, lat]
+      console.log(coords)
       setCenter(coords)
       // map.setView(coords)
     })
