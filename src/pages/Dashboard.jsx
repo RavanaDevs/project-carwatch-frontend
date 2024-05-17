@@ -6,6 +6,8 @@ import '../App.css'
 import VehileInfo from '../components/VahicleInfo'
 import Map from '../components/Map'
 import RpmChart from '../components/RpmChart'
+import SpeedChart from '../components/SpeedChart copy'
+import CarImage from '../components/CarImage'
 
 const Dashboard = () => {
   return (
@@ -17,11 +19,13 @@ const Dashboard = () => {
           <Profile />
           <div className='row'>
             <div className='chart col-md-6'>
+              <CarImage/>
               <VehileInfo />
             </div>
             <div className='map col-md-6'>
               <Map />
               <RpmChart/>
+              <SpeedChart/>
             </div>
           </div>
         </div>
