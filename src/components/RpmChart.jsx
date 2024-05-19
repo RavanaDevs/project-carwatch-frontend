@@ -15,7 +15,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement
+  LineElement,
   // Title,
   // Tooltip,
   // Legend
@@ -56,11 +56,28 @@ const RpmChart = () => {
     ],
   }
 
+  const options = {
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'RPM'
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Time'
+        }
+      }
+    }     
+  }
+
   return (
     <div className='chart-container d-flex flex-column align-items-center p-5'>
       <h4>RPM</h4>
       <div className='w-100 h-100'>
-        <Line data={data} />
+        <Line data={data} options={options} />
       </div>
     </div>
   )

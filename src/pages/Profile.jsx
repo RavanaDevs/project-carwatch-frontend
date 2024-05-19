@@ -140,7 +140,7 @@ const ProfileEdit = () => {
               <Row>
                 <Col sm={6}>
                   <Form.Group controlId='runtime'>
-                    <Form.Label>Runtime</Form.Label>
+                    <Form.Label>Transmission</Form.Label>
                     <Form.Control
                       type='text'
                       placeholder='Enter runtime'
